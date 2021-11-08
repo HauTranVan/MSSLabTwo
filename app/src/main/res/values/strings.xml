@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MSS Lab Two</string>
+    <string name="app_name_1">Application Name: Student Management System</string>
+    <string name="app_dev">Application Developer: Tran Van Hau</string>
+    <string name="button_add">Add New Student</string>
+    <string name="button_list">View All Students</string>
+    <string name="stu_name">Name</string>
+    <string name="stu_score">Score</string>
+    <string name="button_submit">ADD</string>
+</resources>
