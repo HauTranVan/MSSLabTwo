@@ -22,7 +22,7 @@ public class AddStudentActivity extends AppCompatActivity {
         if (((editTextStudentName != null) && (editTextStudentName.length() > 0)) &&
             ((editTextStudentScore != null) && (editTextStudentScore.length() > 0))) {
             String studentName = editTextStudentName.getText().toString();
-            Double studentScore = Double.parseDouble(editTextStudentScore.getText().toString());
+            double studentScore = Double.parseDouble(editTextStudentScore.getText().toString());
             Toast.makeText(this, "Student " + studentName + "(" + studentScore + ") is added", Toast.LENGTH_SHORT).show();
         }
         else {
