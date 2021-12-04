@@ -2,47 +2,57 @@ package com.example.msslabtwo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 public class StudentAdapter extends RecyclerView.Adapter<StudentViewHolder> {
     Context context;
-    List<Student> studentList;
+    Cursor mListStudent;
 
-    public StudentAdapter(Context context, List<Student> studentList) {
+    public void setData(Context context, Cursor mListStudent) {
         this.context = context;
-        this.studentList = studentList;
+        this.mListStudent = mListStudent;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StudentViewHolder(LayoutInflater.from(context).inflate(R.layout.student_row,parent,false));
+        return new StudentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.student_row,parent,false));
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
-        holder.nameView.setText(studentList.get(position).getName());
-        holder.scoreView.setText(Double.toString(studentList.get(position).getScore()));
+        String mStudentName;
+        String mStudentScore;
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             Toast.makeText(context, "The element " + Integer.toString(position+1) + " is clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (mListStudent.moveToPosition(position)) {
+            mStudentName = mListStudent.getString(mListStudent.getColumnIndexOrThrow("name"));
+            mStudentScore = Double.toString(mListStudent.getDouble(mListStudent.getColumnIndexOrThrow("score")));
+            holder.nameView.setText(mStudentName);
+            holder.scoreView.setText(mStudentScore);
+
+            holder.itemView.setOnClickListener(v -> {
+                mListStudent.moveToPosition(position);
+
+                Toast.makeText(context, "Student ("
+                        + mStudentName + ", " + mStudentScore
+                        + ") is clicked!", Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return studentList.size();
+        if (mListStudent != null) {
+            return mListStudent.getCount();
+        }
+        return 0;
     }
 }
